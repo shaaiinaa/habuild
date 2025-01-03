@@ -6,12 +6,16 @@ import ReferralScreen from '../screens/ReferralScreen';
 import ResourcesScreen from '../screens/ResourcesScreen';
 import MyReferral from '../screens/MyReferral';
 import LeaderboardScreen from '../screens/LeaderBoardScreen';
-const Stack = createNativeStackNavigator();
+import SignUpScreen from '../screens/SignUpScreen';
 
+const Stack = createNativeStackNavigator();
 export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Navigator
+        initialRouteName="SignUp"
+        screenOptions={{headerShown: false}}>
+        <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Referral" component={ReferralScreen} />
         <Stack.Screen name="Resources" component={ResourcesScreen} />
