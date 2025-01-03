@@ -83,13 +83,18 @@ export default function EmailForm() {
 
   async function signUpWithEmail() {
     setLoading(true);
-    const {
-      data: {session},
-      error,
-    } = await supabase.auth.signUp({
+    console.log('0---------------');
+    console.log(supabase);
+    console.log('1---------------');
+    const data = await supabase.auth.signUp({
       email: email,
       password: password,
     });
+    console.log('2---------------', data);
+    const {
+      data: {session},
+      error,
+    } = data;
 
     if (error) Alert.alert(error.message);
     if (!session)
