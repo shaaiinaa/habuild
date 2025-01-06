@@ -64,8 +64,13 @@ import React, {useState} from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
 import {supabase} from '../lib/supabase';
 import {Button, Input} from '@rneui/themed';
+import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-export default function EmailForm() {
+type Props = {
+  navigation: NativeStackNavigationProp<any>;
+};
+
+export default function EmailForm({navigation}: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -78,27 +83,33 @@ export default function EmailForm() {
     });
 
     if (error) Alert.alert(error.message);
+    else navigation.navigate('Referral');
+
     setLoading(false);
   }
 
   async function signUpWithEmail() {
     setLoading(true);
-    console.log('0---------------');
-    console.log(supabase);
-    console.log('1---------------');
-    const data = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    });
-    console.log('2---------------', data);
+    // const data = await supabase.auth.signUp({
+    //   email: email,
+    //   password: password,
+    // });
+    // const {
+    //   data: {session},
+    //   error,
+    // } = data;
     const {
       data: {session},
       error,
-    } = data;
+    } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
 
     if (error) Alert.alert(error.message);
     if (!session)
       Alert.alert('Please check your inbox for email verification!');
+
     setLoading(false);
   }
 
